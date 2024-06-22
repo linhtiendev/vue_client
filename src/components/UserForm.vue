@@ -1,7 +1,7 @@
 <template>
     <div class="user-form">
         <!-- tạo hiệu ứng nền hoặc làm mờ nền khi form được hiển thị -->
-        <div class="form-overlay"></div>
+        <div class="form-overlay" @click="() => toggleForm()"></div>
         <!-- không reload trang và gọi phương thức -->
         <form class="form" @submit.prevent="">
             <h3>User Form</h3>
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-
+    props: ["toggleForm"]
 }
 </script>
 

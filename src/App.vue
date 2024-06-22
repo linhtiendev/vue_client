@@ -2,8 +2,9 @@
   <div class="dashboard">
     <AppHeader />
     <main>
-      <Toolbar />
+      <Toolbar :toggleForm="toggleForm" />
       <Team :users="users" /> <!-- truyền props users đã fetch được xuống -->
+      <UserForm v-if="formActive" :toggleForm="toggleForm" />
     </main>
   </div>
 </template>
@@ -15,24 +16,34 @@ import APIController from "@/controllers/api";
 import AppHeader from "@/components/AppHeader.vue";
 import Toolbar from "@/components/Toolbar.vue";
 import Team from "@/components/Team.vue";
+import UserForm from "@/components/UserForm.vue";
 
 export default {
   name: 'App',
   components: {
     AppHeader,
     Toolbar,
-    Team
+    Team,
+    UserForm
   },
   setup() {
     const users = ref([]);
+    const formActive = ref(false); // xử lí active form
 
     const fetchUsers = async () => {
       users.value = await APIController.FetchUsers();
     }
+    // hiển thị form
+    const toggleForm = (id = false) => {
+      formActive.value = !formActive.value; // đảo ngược giá trị false thành true
+      console.log(id);
+    }
 
     return {
       users,
-      fetchUsers
+      fetchUsers,
+      formActive,
+      toggleForm
     }
   },
   // thao tác với DOM, lấy dữ liệu ngay khi thành phần được khởi tạo.
