@@ -3,12 +3,14 @@
     <AppHeader />
     <main>
       <Toolbar />
-      <Team />
+      <Team :users="users" /> <!-- truyền props users đã fetch được xuống -->
     </main>
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
+import APIController from "@/controllers/api";
 
 import AppHeader from "@/components/AppHeader.vue";
 import Toolbar from "@/components/Toolbar.vue";
@@ -20,6 +22,22 @@ export default {
     AppHeader,
     Toolbar,
     Team
+  },
+  setup() {
+    const users = ref([]);
+
+    const fetchUsers = async () => {
+      users.value = await APIController.FetchUsers();
+    }
+
+    return {
+      users,
+      fetchUsers
+    }
+  },
+  // thao tác với DOM, lấy dữ liệu ngay khi thành phần được khởi tạo.
+  mounted() {
+    this.fetchUsers();
   }
 }
 </script>

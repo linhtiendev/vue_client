@@ -6,9 +6,9 @@
                 <div class="table-col">Email</div>
                 <div class="table-col table-actions">Actions</div>
             </div>
-            <div class="member table-row">
-                <div class="table-col name">Le Linh Tien</div>
-                <div class="table-col email">lelinhtien@gmail.com</div>
+            <div class="member table-row" v-for="user in users" :key="user.id">
+                <div class=" table-col name">{{ user.name }}</div>
+                <div class="table-col email">{{ user.email }}</div>
                 <div class="table-col actions">
                     <div class="button-group group-end">
                         <div class="button button-small button-update">Update</div>
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-
+    props: ["users"] // nhập props đã được truyền từ app
 }
 </script>
 
