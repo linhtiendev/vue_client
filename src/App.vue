@@ -4,7 +4,7 @@
     <main>
       <Toolbar :toggleForm="toggleForm" />
       <Team :users="users" /> <!-- truyền props users đã fetch được xuống -->
-      <UserForm v-if="formActive" :toggleForm="toggleForm" />
+      <UserForm v-if="formActive" :toggleForm="toggleForm" :fetchUsers="fetchUsers" :userId="userId" />
     </main>
   </div>
 </template>
@@ -29,6 +29,7 @@ export default {
   setup() {
     const users = ref([]);
     const formActive = ref(false); // xử lí active form
+    const userId = ref(false);
 
     const fetchUsers = async () => {
       users.value = await APIController.FetchUsers();
@@ -36,14 +37,19 @@ export default {
     // hiển thị form
     const toggleForm = (id = false) => {
       formActive.value = !formActive.value; // đảo ngược giá trị false thành true
-      console.log(id);
+      userId.value = false;
+
+      if (id) {
+        userId.value = id;
+      }
     }
 
     return {
       users,
       fetchUsers,
       formActive,
-      toggleForm
+      toggleForm,
+      userId
     }
   },
   // thao tác với DOM, lấy dữ liệu ngay khi thành phần được khởi tạo.

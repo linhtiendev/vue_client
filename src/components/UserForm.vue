@@ -3,31 +3,54 @@
         <!-- tạo hiệu ứng nền hoặc làm mờ nền khi form được hiển thị -->
         <div class="form-overlay" @click="() => toggleForm()"></div>
         <!-- không reload trang và gọi phương thức -->
-        <form class="form" @submit.prevent="">
+        <form class="form" @submit.prevent="(userId == false) ? AddNewUser() : UpdateUser()">
             <h3>User Form</h3>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" name="name" id="name" class="form-control">
+                <input type="text" name="name" id="name" class="form-control" v-model="user.name">
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" class="form-control">
+                <input type="email" name="email" id="email" class="form-control" v-model="user.email">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" v-if="userId == false">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control">
+                <input type="password" name="password" id="password" class="form-control" v-model="user.password">
             </div>
 
-            <input type="submit" value="Add" class="button">
+            <input type="submit" :value="(userId != false) ? 'Update' : 'Add'" class="button">
         </form>
     </div>
 </template>
 
 <script>
+import { ref } from 'vue';
+import APIController from '@/controllers/api'
+
 export default {
-    props: ["toggleForm"]
+    props: ["toggleForm", "fetchUsers", "userId"],
+    setup(props) {
+        const user = ref({});
+
+        const GetUser = async () => {
+            // get user detail
+        }
+
+        const AddNewUser = async () => {
+            let tempUser = await APIController.CreateUser(user.value.name, user.value.email, user.value.password);
+            if (tempUser) {
+                props.fetchUsers();
+                props.toggleForm();
+            }
+        }
+        return {
+            user,
+            GetUser,
+            AddNewUser
+        }
+    }
 }
 </script>
 
