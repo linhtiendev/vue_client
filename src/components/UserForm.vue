@@ -19,7 +19,7 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" class="form-control" v-model="user.password">
             </div>
-
+            <!-- handle hiển thị button -->
             <input type="submit" :value="(userId != false) ? 'Update' : 'Add'" class="button">
         </form>
     </div>
@@ -34,8 +34,9 @@ export default {
     setup(props) {
         const user = ref({});
 
+        // get user detail
         const GetUser = async () => {
-            // get user detail
+            user.value = await APIController.FetchUser(props.userId)
         }
 
         const AddNewUser = async () => {
@@ -45,10 +46,24 @@ export default {
                 props.toggleForm();
             }
         }
+
+        const UpdateUser = async () => {
+            let tempUser = await APIController.UpdateUser(user.value.name, user.value.email, props.userId);
+            if (tempUser) {
+                props.fetchUsers();
+                props.toggleForm();
+            }
+        }
         return {
             user,
             GetUser,
-            AddNewUser
+            AddNewUser,
+            UpdateUser
+        }
+    },
+    mounted() {
+        if (this.userId != false) {
+            this.GetUser();
         }
     }
 }

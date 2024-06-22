@@ -3,7 +3,8 @@
     <AppHeader />
     <main>
       <Toolbar :toggleForm="toggleForm" />
-      <Team :users="users" /> <!-- truyền props users đã fetch được xuống -->
+      <!-- truyền props users đã fetch được xuống -->
+      <Team :users="users" :toggleForm="toggleForm" :fetchUsers="fetchUsers" />
       <UserForm v-if="formActive" :toggleForm="toggleForm" :fetchUsers="fetchUsers" :userId="userId" />
     </main>
   </div>

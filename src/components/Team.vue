@@ -12,7 +12,7 @@
                 <div class="table-col email">{{ user.email }}</div>
                 <div class="table-col actions">
                     <div class="button-group group-end">
-                        <div class="button button-small button-update">Update</div>
+                        <div class="button button-small button-update" @click="() => toggleForm(user.id)">Update</div>
                         <div class="button button-small button-alert">Delete</div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-    props: ["users"] // nhập props đã được truyền từ app
+    props: ["users", "toggleForm", "fetchUsers"] // nhập props đã được truyền từ app
 }
 </script>
 
