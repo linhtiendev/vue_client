@@ -1,6 +1,7 @@
 <template>
     <div class="team">
-        <div class="team-member table">
+        <!-- v-if dk lập mảng users -->
+        <div class="team-member table" v-if="users.length > 0">
             <div class="table-header table-row">
                 <div class="table-col">Name</div>
                 <div class="table-col">Email</div>
@@ -16,6 +17,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="no-team" v-else>
+            <p>No team available</p>
         </div>
     </div>
 </template>
