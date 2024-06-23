@@ -13,7 +13,7 @@
                 <div class="table-col actions">
                     <div class="button-group group-end">
                         <div class="button button-small button-update" @click="() => toggleForm(user.id)">Update</div>
-                        <div class="button button-small button-alert">Delete</div>
+                        <div class="button button-small button-alert" @click="() => deleteUser(user.id)">Delete</div>
                     </div>
                 </div>
             </div>
@@ -25,8 +25,22 @@
 </template>
 
 <script>
+import APIController from '@/controllers/api'
 export default {
-    props: ["users", "toggleForm", "fetchUsers"] // nhập props đã được truyền từ app
+    props: ["users", "toggleForm", "fetchUsers"], // nhập props đã được truyền từ app
+
+    setup(props) {
+        const deleteUser = async (id) => {
+            const success = await APIController.DeleteUser(id);
+
+            if (success) {
+                props.fetchUsers();
+            }
+        }
+        return {
+            deleteUser
+        }
+    }
 }
 </script>
 
